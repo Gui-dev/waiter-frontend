@@ -42,10 +42,11 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   * {
+    font-size: 62.5%;
+    font-family: GeneralSans, sans-serif;
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: GeneralSans, sans-serif;
   }
 
   body {
