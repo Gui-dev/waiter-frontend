@@ -1,11 +1,13 @@
 import { Header } from './components/Header'
+import { Orders } from './components/Orders'
 import { GlobalStyle } from './styles/global'
 
 function App () {
   return (
     <>
-      <Header />
       <GlobalStyle />
+      <Header />
+      <Orders />
     </>
   )
 }
