@@ -9,7 +9,7 @@ export const Container = styled.div`
   border: 1px solid rgba(204, 204, 204, .4);
   border-radius: 1.6rem;
 
-  header {
+  > header {
     display: flex;
     align-items: center;
     gap: .8rem;
