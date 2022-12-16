@@ -8,3 +8,10 @@ export const Container = styled.section`
   max-width: 1216px;
   width: 100%;
 `
+
+export const LoadingContainer = styled.div`
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ height: calc(100vh - 198px);
+`
