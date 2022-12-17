@@ -7,10 +7,12 @@ import { Actions, Container, ModalBody, OrderDetails } from './style'
 type OrderModalProps = {
   visible: boolean
   order: OrderProps | null
+  isLoading?: boolean
   onModalVisible: (visible: boolean) => void
+  onCancelOrder: () => Promise<void>
 }
 
-export const OrderModal = ({ visible, order, onModalVisible }: OrderModalProps) => {
+export const OrderModal = ({ visible, order, isLoading, onModalVisible, onCancelOrder }: OrderModalProps) => {
   const icon = order?.status === 'WAITING'
     ? '🕒'
     : order?.status === 'IN_PRODUCTION' ? '🧑‍🍳' : '✅'
@@ -82,11 +84,18 @@ export const OrderModal = ({ visible, order, onModalVisible }: OrderModalProps) 
         </OrderDetails>
 
         <Actions>
-          <button className="primary">
+          <button
+            className="primary"
+            disabled={isLoading}
+          >
             <span>🧑‍🍳</span>
             <span>Iniciar produção</span>
           </button>
-          <button className="secondary">
+          <button
+            className="secondary"
+            onClick={onCancelOrder}
+            disabled={isLoading}
+          >
             <span>Cancelar pedido</span>
           </button>
         </Actions>

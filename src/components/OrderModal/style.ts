@@ -140,7 +140,15 @@ export const Actions = styled.footer`
     border: 0;
     border-radius: 4.8rem;
     transition: filter .3s;
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
   }
+
+
+
   .primary {
     color: #FFF;
     background-color: #333;
