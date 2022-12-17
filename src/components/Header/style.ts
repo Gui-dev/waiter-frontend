@@ -12,6 +12,7 @@ export const Content = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  margin: 0 5%;
   max-width: 1216px;
   width: 100%;
 
