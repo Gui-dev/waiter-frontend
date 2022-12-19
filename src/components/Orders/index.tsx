@@ -14,6 +14,17 @@ export const Orders = () => {
     setOrders(prevState => prevState.filter(order => order._id !== orderId))
   }
 
+  const handleOrderStatusChange = async (orderId: string, status: OrderProps['status']) => {
+    setOrders(prevState => prevState.map(order => {
+      return order._id === orderId
+        ? {
+          ...order,
+          status
+        }
+        : order
+    }))
+  }
+
   useEffect(() => {
     const loadOrders = async () => {
       try {
@@ -54,18 +65,21 @@ export const Orders = () => {
         title="Fila de espera"
         orders={waiting}
         onCancelOrder={handleCancelOrder}
+        onOrderChangeStatus={handleOrderStatusChange}
       />
       <OrdersBoard
         icon="🧑‍🍳"
         title="Em preparação"
         orders={inProduction}
         onCancelOrder={handleCancelOrder}
+        onOrderChangeStatus={handleOrderStatusChange}
       />
       <OrdersBoard
         icon="✅"
         title="Pronto!"
         orders={done}
         onCancelOrder={handleCancelOrder}
+        onOrderChangeStatus={handleOrderStatusChange}
       />
     </Container>
   )

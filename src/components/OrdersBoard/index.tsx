@@ -28,9 +28,10 @@ type OrdersBoardProps = {
   title: string
   orders: OrderProps[]
   onCancelOrder: (orderId: string) => Promise<void>
+  onOrderChangeStatus: (orderId: string, status: OrderProps['status']) => Promise<void>
 }
 
-export const OrdersBoard = ({ icon, title, orders, onCancelOrder }: OrdersBoardProps) => {
+export const OrdersBoard = ({ icon, title, orders, onCancelOrder, onOrderChangeStatus }: OrdersBoardProps) => {
   const [isModalVisible, setIsModalVisible] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [selectedOrder, setSelectedOrder] = useState<OrderProps | null>(null)
@@ -54,6 +55,23 @@ export const OrdersBoard = ({ icon, title, orders, onCancelOrder }: OrdersBoardP
     }
   }
 
+  const handleChangeStatus = async () => {
+    try {
+      setIsLoading(true)
+      const status = selectedOrder?.status === 'WAITING' ? 'IN_PRODUCTION' : 'DONE'
+      await api.patch(`/orders/${selectedOrder?._id}`, {
+        status
+      })
+      onOrderChangeStatus(selectedOrder!._id, status)
+      setIsModalVisible(false)
+      toast.success(`O pedido da mesa ${selectedOrder!.table} teve o status alterado`)
+    } catch (error) {
+      console.log(error)
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
   return (
     <Container>
       <OrderModal
@@ -62,6 +80,7 @@ export const OrdersBoard = ({ icon, title, orders, onCancelOrder }: OrdersBoardP
         order={selectedOrder}
         onCancelOrder={handleCancelOrder}
         isLoading={isLoading}
+        onChangeStatus={handleChangeStatus}
       />
       <header>
         <span>{icon}</span>

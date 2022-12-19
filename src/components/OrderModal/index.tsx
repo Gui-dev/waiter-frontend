@@ -10,9 +10,10 @@ type OrderModalProps = {
   isLoading?: boolean
   onModalVisible: (visible: boolean) => void
   onCancelOrder: () => Promise<void>
+  onChangeStatus: () => Promise<void>
 }
 
-export const OrderModal = ({ visible, order, isLoading, onModalVisible, onCancelOrder }: OrderModalProps) => {
+export const OrderModal = ({ visible, order, isLoading, onModalVisible, onCancelOrder, onChangeStatus }: OrderModalProps) => {
   const icon = order?.status === 'WAITING'
     ? '🕒'
     : order?.status === 'IN_PRODUCTION' ? '🧑‍🍳' : '✅'
@@ -84,13 +85,23 @@ export const OrderModal = ({ visible, order, isLoading, onModalVisible, onCancel
         </OrderDetails>
 
         <Actions>
-          <button
-            className="primary"
-            disabled={isLoading}
-          >
-            <span>🧑‍🍳</span>
-            <span>Iniciar produção</span>
-          </button>
+          {order.status !== 'DONE' && (
+            <button
+              className="primary"
+              disabled={isLoading}
+              onClick={onChangeStatus}
+            >
+              <span>
+                {order.status === 'WAITING' && '🧑‍🍳'}
+                {order.status === 'IN_PRODUCTION' && '✅'}
+              </span>
+              <span>
+                {order.status === 'WAITING' && 'Iniciar Produção'}
+                {order.status === 'IN_PRODUCTION' && 'Concluir pedido'}
+              </span>
+            </button>
+          )}
+
           <button
             className="secondary"
             onClick={onCancelOrder}
