@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import ClipLoader from 'react-spinners/ClipLoader'
+import socketIo from 'socket.io-client'
 
 import { OrderProps, OrdersBoard } from '../OrdersBoard'
 import { Container, LoadingContainer } from './style'
@@ -24,6 +25,15 @@ export const Orders = () => {
         : order
     }))
   }
+
+  useEffect(() => {
+    const socket = socketIo('http://192.168.0.106:3333', {
+      transports: ['websocket']
+    })
+    socket.on('order@new', order => {
+      setOrders(prevState => prevState.concat(order))
+    })
+  }, [])
 
   useEffect(() => {
     const loadOrders = async () => {
